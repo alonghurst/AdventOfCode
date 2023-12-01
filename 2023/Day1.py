@@ -63,6 +63,16 @@ result = reduce(lambda x, y: x + y, vals)
 
 print(f"Part 2: {result}")
 
-# Edge cases not covered by examples
-# print(fixLine("eighthree"))
-# print(fixLine("sevenine"))
+lines = open("./2023/Data/day1_compare.txt").readlines()
+
+def compare(line):
+    parts = line.split(",")
+    fixed = fixLine(parts[0])
+    val = numFromLine(fixed)
+    val2 = int(parts[1])
+    if(val != val2):
+        print (f"{line} ({val})")
+    return 1
+
+for line in lines:
+    compare(line)
