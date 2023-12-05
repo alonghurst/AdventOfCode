@@ -76,11 +76,12 @@ def allMaps():
 def parse(maps, val):
     for map in maps:
         val = map.map(val)
+        print(f"{map.name}: {val}")
     return val
 
 
 maps = allMaps()
 
-test = [79, 14, 55, 13]
+test = [79]  # , 14, 55, 13]
 vals = map(lambda x: parse(maps, x), test)
 print(list(vals))
