@@ -10,7 +10,7 @@ class Range:
     dist: int
 
     def contains(self, x):
-        return x >= self.source and x < self.source+self.destination
+        return x >= self.source and x < self.source + self.dist
 
     def map(self, x):
         diff = self.destination - self.source
@@ -29,14 +29,24 @@ class RangeMap:
         return x
 
 
-lines = open("./2023/Data/day5_sample.txt").readlines()
+lines = open("./2023/Data/day5.txt").readlines()
 
 
-def seeds(line):
+def getSeeds(line):
     line = line.replace("seeds: ", "")
     parts = line.split()
     return list(map(lambda x: int(x), parts))
 
+def getSeedRanges(line):
+    line = line.replace("seeds: ", "")
+    parts = line.split()
+    idx = 0
+    while idx < len(parts):
+        x = int(parts[idx])
+        r = int(parts[idx+1])
+        for i in range(r):
+            yield x + i
+        idx+=2
 
 def findNextMapLines(idx):
     while idx < len(lines) and len(lines[idx].strip()) > 0:
@@ -76,12 +86,17 @@ def allMaps():
 def parse(maps, val):
     for map in maps:
         val = map.map(val)
-        print(f"{map.name}: {val}")
+        #print(f"{map.name}: {val}")
     return val
 
-
+seeds = getSeeds(lines[0])
 maps = allMaps()
 
-test = [79]  # , 14, 55, 13]
-vals = map(lambda x: parse(maps, x), test)
-print(list(vals))
+vals = map(lambda x: parse(maps, x), seeds)
+result = min(vals)
+print(f"Result 1: {result}")
+
+seeds = getSeedRanges(lines[0])
+vals = map(lambda x: parse(maps, x), seeds)
+result = min(vals)
+print(f"Result 2: {result}")
